@@ -4,28 +4,13 @@ import userSchema from "./graphQL/schemas/user.js";
 import userRoot from "./graphQL/roots/user.js";
 import loginSchema from "./graphQL/schemas/login.js";
 import loginRoot from "./graphQL/roots/login.js";
-import mongoose from "mongoose";
+import "./mongo/connection.js";
+import "./redis/connection.js";
 import "dotenv/config.js";
-import { createClient } from "redis";
 import rateLimit from "express-rate-limit";
 import authMiddleware from "./middlewares/auth.js";
 
 const api = express();
-
-try {
-  await mongoose.connect("mongodb://localhost:27017/graphql");
-} catch (error) {
-  console.log("mongoose connection error");
-  process.exit(error);
-}
-
-const redis = createClient();
-try {
-  await redis.connect();
-} catch (error) {
-  console.log("redis connection error");
-  process.exit(error);
-}
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,

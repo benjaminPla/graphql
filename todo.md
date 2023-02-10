@@ -11,3 +11,4 @@
 [ ] add '/login' routes
 [ ] add '/register' routes
 [ ] add error middleware
+[ ] add eslint
