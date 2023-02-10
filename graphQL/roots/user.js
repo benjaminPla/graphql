@@ -2,7 +2,14 @@ import User from "../../mongo/schemas/user.js";
 import bcrypt from "bcrypt";
 
 const userRoot = {
-  getAllUsers: async () => await User.find(),
+  getAllUsers: async () => {
+    try {
+      const users = await User.find();
+      return users;
+    } catch (error) {
+      return error;
+    }
+  },
   getByIdUser: async (data) => {
     try {
       const { id } = data;

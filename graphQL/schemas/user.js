@@ -7,7 +7,7 @@ const userSchema = buildSchema(`
   }
   type Query {
     getAllUsers: [User]
-    getByIdUser(id: String): User
+    getByIdUser(id: String!): User
   }
   type Mutation {
     addUser(email: String, password: String!): User
