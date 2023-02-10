@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config.js";
 
-const loginRoot = {
+const authRoot = {
   getToken: (data) => {
     try {
       const { email } = data;
@@ -15,4 +15,4 @@ const loginRoot = {
   },
 };
 
-export default loginRoot;
+export default authRoot;

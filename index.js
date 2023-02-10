@@ -2,8 +2,8 @@ import express from "express";
 import { graphqlHTTP } from "express-graphql";
 import userSchema from "./graphQL/schemas/user.js";
 import userRoot from "./graphQL/roots/user.js";
-import loginSchema from "./graphQL/schemas/login.js";
-import loginRoot from "./graphQL/roots/login.js";
+import authSchema from "./graphQL/schemas/auth.js";
+import authRoot from "./graphQL/roots/auth.js";
 import "./mongo/connection.js";
 import "./redis/connection.js";
 import "dotenv/config.js";
@@ -19,10 +19,10 @@ const limiter = rateLimit({
 api.use(limiter);
 
 api.use(
-  "/login",
+  "/auth",
   graphqlHTTP({
-    schema: loginSchema,
-    rootValue: loginRoot,
+    schema: authSchema,
+    rootValue: authRoot,
     graphiql: process.env.ENVIRONMENT === "local",
   })
 );

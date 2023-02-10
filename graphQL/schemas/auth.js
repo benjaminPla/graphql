@@ -1,6 +1,6 @@
 import { buildSchema } from "graphql";
 
-const loginSchema = buildSchema(`
+const authSchema = buildSchema(`
   type Token {
     token: String!
   }
@@ -9,4 +9,4 @@ const loginSchema = buildSchema(`
   }
 `);
 
-export default loginSchema;
+export default authSchema;
