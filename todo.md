@@ -1,4 +1,6 @@
-[ ] reorganize mongo folders
-[x] add limiter
-[ ] add timeout
+[x] reorganize mongo folders
+[x] add limiter middleware
+[ ] add timeout middleware
 [x] add redis
+[ ] set env variable for newRelicLicenceKey
+[x] add bcrypt

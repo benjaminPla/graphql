@@ -1,31 +1,32 @@
-import User from "../../mongoSchemas/user.js";
+import User from "../../mongo/schemas/user.js";
+import bcrypt from "bcrypt";
 
 const userRoot = {
   getAllUsers: async () => await User.find(),
   getByIdUser: async (data) => {
-    const { id } = data;
-    const user = await User.findOne({ _id: id });
-    return user;
-  },
-  getByNameUser: async (data) => {
-    const { name } = data;
-    const user = await User.findOne({ name });
-    return user;
+    try {
+      const { id } = data;
+      const user = await User.findOne({ _id: id });
+      return user;
+    } catch (error) {
+      return error;
+    }
   },
   addUser: async (data) => {
-    const { name, email } = data;
     try {
-      const newUser = new User({ name, email });
+      const { email, password } = data;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new User({ email, password: hashedPassword });
       await newUser.save();
       return newUser;
     } catch (error) {
       return error;
     }
   },
-  editByIdUser: async ({ id, name, email }) => {
+  editByIdUser: async ({ id, email, password }) => {
     try {
       const user = await User.findOne({ _id: id });
-      if (name) user.name = name;
+      if (password) user.password = password;
       if (email) user.email = email;
       await user.save();
       return user;
