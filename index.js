@@ -28,8 +28,8 @@ const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 5,
 });
-
 api.use(limiter);
+
 api.use(
   "/user",
   graphqlHTTP({
@@ -39,5 +39,5 @@ api.use(
   })
 );
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 api.listen(PORT, () => console.log(`API running on port ${PORT}`));
