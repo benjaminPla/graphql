@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 import "dotenv/config.js";
 import { createClient } from "redis";
 import rateLimit from "express-rate-limit";
-import jwt from "jsonwebtoken";
+import authMiddleware from "./middlewares/auth.js";
 
 const api = express();
 
@@ -42,21 +42,7 @@ api.use(
   })
 );
 
-api.use("/", (req, res, next) => {
-  const { token } = req.headers;
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
-      if (error) {
-        res.sendStatus(403);
-      } else {
-        req.user = user;
-        next();
-      }
-    });
-  } else {
-    res.sendStatus(401);
-  }
-});
+api.use(authMiddleware);
 
 api.use(
   "/user",

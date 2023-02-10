@@ -6,7 +6,7 @@ const loginRoot = {
     try {
       const { email } = data;
       const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-        expiresIn: "10s",
+        expiresIn: "10m",
       });
       return { token };
     } catch (error) {

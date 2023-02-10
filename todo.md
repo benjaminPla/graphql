@@ -6,3 +6,8 @@
 [x] add bcrypt
 [x] add jwt
 [ ] add jwt expiration
+[x] add sanitizer
+[ ] change '/login' for '/auth' route
+[ ] add '/login' routes
+[ ] add '/register' routes
+[ ] add error middleware
