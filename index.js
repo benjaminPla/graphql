@@ -2,10 +2,13 @@ import express from "express";
 import { graphqlHTTP } from "express-graphql";
 import userSchema from "./graphQL/schemas/user.js";
 import userRoot from "./graphQL/roots/user.js";
+import loginSchema from "./graphQL/schemas/login.js";
+import loginRoot from "./graphQL/roots/login.js";
 import mongoose from "mongoose";
 import "dotenv/config.js";
 import { createClient } from "redis";
 import rateLimit from "express-rate-limit";
+import jwt from "jsonwebtoken";
 
 const api = express();
 
@@ -29,6 +32,31 @@ const limiter = rateLimit({
   max: 5,
 });
 api.use(limiter);
+
+api.use(
+  "/login",
+  graphqlHTTP({
+    schema: loginSchema,
+    rootValue: loginRoot,
+    graphiql: process.env.ENVIRONMENT === "local",
+  })
+);
+
+api.use("/", (req, res, next) => {
+  const { token } = req.headers;
+  if (token) {
+    jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
+      if (error) {
+        res.sendStatus(403);
+      } else {
+        req.user = user;
+        next();
+      }
+    });
+  } else {
+    res.sendStatus(401);
+  }
+});
 
 api.use(
   "/user",
